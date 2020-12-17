@@ -73,9 +73,38 @@ df_train, df_val = train_test_split(df, test_size=0.2, random_state=42)
 ```
 Note: `train.csv` and `test.csv` is from the [Kaggle](https://www.kaggle.com/c/tweet-sentiment-extraction/data).
 
-# Model & Training
+Finally, we use Pytorch [`DataLoader`](https://pytorch.org/docs/1.7.1/data.html#torch.utils.data.DataLoader) for the batch loading the dataset and its iterate capability.
+```
+ds_train = TweetsDataset(df_train.text.to_numpy(), df_train.sentiment.to_numpy())
+ds_val = TweetsDataset(df_val.text.to_numpy(), df_val.sentiment.to_numpy())
+ds_test = TweetsDataset(df_test.text.to_numpy(), df_test.sentiment.to_numpy())
 
-# Training
+BATCH_SIZE = 16
+dl_train = DataLoader(ds_train, batch_size=BATCH_SIZE, num_workers=4)
+dl_val = DataLoader(ds_val, batch_size=BATCH_SIZE, num_workers=4)
+dl_test = DataLoader(ds_test, batch_size=BATCH_SIZE, num_workers=4)
+```
+
+# Model & Training
+Basically, we leverage Transfer Learning, so most of training work are delegated to the BERT pre-trained model, here is the classifier.
+```
+NUM_CLASSES = 3
+
+class SentimentClassifier(nn.Module):
+  def __init__(self):
+    super(SentimentClassifier, self).__init__()
+    self.bert_model = BertModel.from_pretrained('bert-base-cased')
+    self.drop = nn.Dropout(p=0.3)
+    self.out = nn.Linear(self.bert_model.config.hidden_size, NUM_CLASSES)
+  
+  def forward(self, input_ids, attention_mask):
+    bert_outputs = self.bert_model(
+      input_ids=input_ids,
+      attention_mask=attention_mask
+    )
+    output = self.drop(bert_outputs.pooler_output)
+    return self.out(output)
+```
 
 # Evalution
 
