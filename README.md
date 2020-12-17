@@ -14,8 +14,16 @@ The training data set has 27481 rows, and each row includes a textID, text, sele
 We will do the following per BERT requirements via Hugging Face Transformers library in this section.
 * Add special tokens to separate the sentences
 * Choose a fixed sequence length and add paddings for those length less than the choose length
-* Create attention mask
+* Create the attention mask
 
+Specifically, [BertTokenizer](https://huggingface.co/transformers/model_doc/bert.html#berttokenizer) is for helping with word embeddings. It can be initialized with pre-trained model.
+```
+tokenizer = BertTokenizer.from_pretrained('bert-base-cased')
+```
+Also this class provides the special tokens like
+* `[SEP]`: the separator token, which is used when building a sequence from multiple sequences
+* `[CLS]`: the classifier token which is used when doing sequence classification
+* `[PAD]`: the token used for padding, for example when batching sequences of different lengths
 
 # Model & Training
 
