@@ -2,7 +2,7 @@
 Tweet sentiment analysis, the training/test data are from the Kaggle (https://www.kaggle.com/c/tweet-sentiment-extraction/data).
 * Use Pytorch Dataset/Dataloader to pre-process the text data
 * Understand the Transformers and BERT
-* Use Transfer learning to build sentiment classisifer with Hugging Face Transformers libaray
+* Use Transfer learning to build sentiment classisifer with Hugging Face Transformers library
 * Evaluate the model on the test data
 
 # Data Analysis
@@ -11,6 +11,11 @@ The training data set has 27481 rows, and each row includes a textID, text, sele
 ![](images/sentiment_distribution.png)
 
 # Data Pre-processing
+We will do the following per BERT requirements via Hugging Face Transformers library in this section.
+* Add special tokens to separate the sentences
+* Choose a fixed sequence length and add paddings for those length less than the choose length
+* Create attention mask
+
 
 # Model & Training
 
