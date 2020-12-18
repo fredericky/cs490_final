@@ -162,6 +162,42 @@ Here is the model evaluation result on the test data, it's a little lower than t
 Test accuracy: 0.7744765138653085
 ```
 
+# Inference
+In this section, I will use the best trained model for the sentiment prediction.
+```
+CLASS_NAMES = {
+    0: 'postive',
+    1: 'neutral',
+    2: 'negative',
+}
+
+texts = ['I love this app, best ever!', 'So sad, it is not working']
+
+for text in texts:
+  encoded_text = tokenizer.encode_plus(
+    text,
+    max_length=MAX_LENGTH,
+    add_special_tokens=True,
+    return_token_type_ids=False,
+    pad_to_max_length=True,
+    return_attention_mask=True,
+    return_tensors='pt',
+  )
+
+  output = classifier(encoded_text['input_ids'].to(device), encoded_text['attention_mask'].to(device))
+  _, prediction = torch.max(output, dim=1)
+
+  print(f'Text: {text}')
+  print(f'Sentiment  : {CLASS_NAMES[prediction.item()]}')
+```
+Here are the results.
+```
+Text: I love this app, best ever!
+Sentiment  : postive
+
+Text: So sad, it is not working
+Sentiment  : negative
+```
 
 # References
 * [Sentiment Analysis with BERT and Transformers by Hugging Face using PyTorch and Python](https://curiousily.com/posts/sentiment-analysis-with-bert-and-hugging-face-using-pytorch-and-python/)
