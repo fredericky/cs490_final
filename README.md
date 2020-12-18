@@ -1,3 +1,5 @@
+# [Video](https://youtu.be/ZmonLq-5tYM)
+
 # Objective
 Tweet sentiment analysis, the training/test data are from the [Kaggle](https://www.kaggle.com/c/tweet-sentiment-extraction/data). Here is the original [project proposal](https://docs.google.com/document/d/1lWHdD9wxFcGoTYYpAAGPzRflJiHCXd6duoHrqs3XwNE/edit?usp=sharing).
 * Use Pytorch Dataset/Dataloader to pre-process the text data
